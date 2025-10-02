@@ -1,0 +1,9 @@
+Бій 1 на 1: Tor VS Zip
+Tor атакує Zip (HP 75)
+Zip атакує Tor (HP 90)
+Tor атакує Zip (HP 50)
+Zip атакує Tor (HP 80)
+Tor атакує Zip (HP 25)
+Zip атакує Tor (HP 70)
+Tor атакує Zip (HP 0)
+Переміг Tor!
