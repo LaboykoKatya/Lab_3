@@ -27,18 +27,27 @@ public abstract class DaddyDroid {
         return health > 0;
     }
 
+    public void addHealth(int delta) {
+        this.health += delta;
+    }
+
     public void takeDamage(int dmg) {
         health -= dmg;
         if (health < 0) health = 0;
     }
 
-    public void attack(DaddyDroid enemy) {
+    //метод повертає рядок
+    public String attack(DaddyDroid enemy) {
         enemy.takeDamage(damage);
-        System.out.println(name + " атакує " + enemy.getName() + " на " + damage + " урону!");
+        return name + " атакує " + enemy.getName() + " на " + damage + " урону!\n";
     }
 
     @Override
     public String toString() {
-        return name + " [HP: " + health + ", DMG: " + damage + "]";
+        if (!isAlive()) {
+            return getName() + " [МЕРТВИЙ]";
+        }
+        return getName() + " [HP: " + getHealth() + ", DMG: " + getDamage() + "]";
     }
+
 }

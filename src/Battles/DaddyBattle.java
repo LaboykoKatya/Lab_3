@@ -13,8 +13,21 @@ public abstract class DaddyBattle {
 
     public abstract String fight();
 
+    //показує скільки HP втрачено
     protected String logAttack(DaddyDroid attacker, DaddyDroid defender) {
-        attacker.attack(defender);
-        return attacker.getName() + " атакує " + defender.getName() + " (HP " + defender.getHealth() + ")\n";
+        int before = defender.getHealth();
+        String action = attacker.attack(defender); // сам текст дроїда
+        int after = defender.getHealth();
+        return action + " (HP " + defender.getName() + ": " + before + " → " + after + ")\n";
     }
+
+    // для лікування
+    protected String logHeal(DaddyDroid healer, DaddyDroid ally, int healedHP) {
+        int before = ally.getHealth();
+        ally.addHealth(healedHP);
+        int after = ally.getHealth();
+        return healer.getName() + " лікує " + ally.getName() +
+                " на " + healedHP + " HP (HP " + ally.getName() + ": " + before + " → " + after + ")\n";
+    }
+
 }

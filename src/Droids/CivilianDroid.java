@@ -1,31 +1,51 @@
 package Droids;
 
-public class CivilianDroid extends DaddyDroid  {
-    private int supportLevel; // лікує союзників
-    private int panicChance;  // пропускає хід
+import java.util.Random;
 
-    public CivilianDroid (String name) {
+public class CivilianDroid extends DaddyDroid {
+    private int supportLevel;   // кількість HP, яку може відновити союзнику
+    private int panicChance;    // шанс паніки у відсотках (0–100)
+    private Random random = new Random();
+
+    public CivilianDroid(String name) {
         super(name, 100, 10);
-        this.supportLevel = 10;
-        this.panicChance = 0; // постійно не панікує
+        this.supportLevel = 15;
+        this.panicChance = 25; // 25% шанс паніки
     }
 
-    public int getSupportLevel() { return supportLevel; }
-
-    public void healAlly(DaddyDroid ally) {
-        ally.takeDamage(-supportLevel); // відновлює здоров’я
-        System.out.println(name + " лікує " + ally.getName() + " на " + supportLevel + " HP!");
+    public int getSupportLevel() {
+        return supportLevel;
     }
 
+    //Атака або паніка
     @Override
-    public void attack(DaddyDroid enemy) {
+    public String attack(DaddyDroid enemy) {
+        if (!isAlive()) {
+            return getName() + " мертвий і не може атакувати.";
+        }
+
+        // Якщо дроїд панікує — він пропускає хід
+        if (random.nextInt(100) < panicChance) {
+            return getName() + " панікує і пропускає хід!";
+        }
+
+        // Інакше — атакує ворога
         enemy.takeDamage(damage);
-        System.out.println(name + " атакує " + enemy.getName() + " на " + damage + " урону!");
+        if (!enemy.isAlive()) {
+            return getName() + " атакує " + enemy.getName() + " на " + damage +
+                    " шкоди. " + enemy.getName() + " помер!";
+        } else {
+            return getName() + " атакує " + enemy.getName() + " на " + damage +
+                    " шкоди (" + enemy.getHealth() + " HP залишилось).";
+        }
     }
 
     @Override
     public String toString() {
-        return name + " [HP: " + health + ", DMG: " + damage + ", Support: " + supportLevel + "]";
+        if (!isAlive()) {
+            return super.toString();
+        }
+        return getName() + " [HP: " + getHealth() + ", DMG: " + getDamage() +
+                ", Support: " + supportLevel + ", PanicChance: " + panicChance + "%]";
     }
-
 }

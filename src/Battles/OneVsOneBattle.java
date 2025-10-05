@@ -4,9 +4,6 @@ import Droids.DaddyDroid;
 
 public class OneVsOneBattle extends DaddyBattle {
 
-    private DaddyDroid d1;
-    private DaddyDroid d2;
-
     public OneVsOneBattle(DaddyDroid d1, DaddyDroid d2) {
         super(new DaddyDroid[]{d1}, new DaddyDroid[]{d2});
     }
@@ -25,9 +22,11 @@ public class OneVsOneBattle extends DaddyBattle {
             log.append(logAttack(d2, d1));
         }
 
+
         String winner = d1.isAlive() ? d1.getName() : d2.getName();
         log.append("Переміг ").append(winner).append("!\n");
 
         return log.toString();
     }
+
 }

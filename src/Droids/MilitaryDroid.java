@@ -10,23 +10,28 @@ public class MilitaryDroid extends DaddyDroid {
         this.rage = 0;
     }
 
-    public int getArmor() { return armor; }
-
     @Override
     public void takeDamage(int dmg) {
         super.takeDamage(Math.max(dmg - armor, 0)); // броня зменшує dmg
     }
 
     @Override
-    public void attack(DaddyDroid enemy) {
-        enemy.takeDamage(damage + rage);
-        System.out.println(name + " атакує " + enemy.getName() + " на " + (damage + rage) + " урону! (Rage +" + rage + ")");
+    public String attack(DaddyDroid enemy) {
+        int totalDamage = damage + rage;
+        enemy.takeDamage(totalDamage);
+        String result = name + " атакує " + enemy.getName() + " на " + totalDamage +
+                " шкоди! (Rage +" + rage + ")\n";
         rage += 5; // після кожної атаки ярість збільшує damage
+        return result;
     }
 
     @Override
     public String toString() {
-        return name + " [HP: " + health + ", DMG: " + damage + ", Armor: " + armor + ", Rage: " + rage + "]";
+        if (!isAlive()) {
+            return super.toString();
+        }
+        return getName() + " [HP: " + getHealth() + ", DMG: " + getDamage() +
+                ", Armor: " + armor + ", Rage: " + rage + "]";
     }
 
 }
