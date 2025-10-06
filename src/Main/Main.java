@@ -89,24 +89,29 @@ public class Main {
     }
 
     private static void teamVsTeam() {
-        int total = Droids.size();
-        if (total < 2) {
+        int aliveCount = 0;
+        for (DaddyDroid d : Droids) {
+            if (d.isAlive()) aliveCount++;
+        }
+
+
+        if (aliveCount < 2) {
             System.out.println("Створіть хоча б 2 дроїди!");
             return;
         }
 
-        if (total % 2 != 0) {
-            int needed = 2 - (total % 2);
+        if (aliveCount % 2 != 0) {
+            int needed = 2 - (aliveCount % 2);
             System.out.println("Непарна кількість дроїдів. Додайте ще " + needed +
                     " дроїда(ів), щоб у кожній команді було порівну!");
             return;
         }
 
         showDroids();
-        int teamSize = total / 2;
+        int teamSize = aliveCount / 2;
         DaddyDroid[] team1 = new DaddyDroid[teamSize];
         DaddyDroid[] team2 = new DaddyDroid[teamSize];
-        boolean[] chosen = new boolean[total];
+        boolean[] chosen = new boolean[Droids.size()];
 
         // вибір команди 1 тільки з живих
         System.out.println("Виберіть " + teamSize + " дроїдів для команди 1:");
@@ -118,7 +123,7 @@ public class Main {
 
         // 2 команда теж тільки з живих, що лишилися
         int j = 0;
-        for (int i = 0; i < total; i++) {
+        for (int i = 0; i < Droids.size(); i++) {
             if (!chosen[i] && Droids.get(i).isAlive()) {
                 if (j < teamSize) {
                     team2[j++] = Droids.get(i);
@@ -162,18 +167,22 @@ public class Main {
             System.out.print(prompt);
             int idx = sc.nextInt() - 1;
 
+            // перевірка діапазону
             if (idx < 0 || idx >= Droids.size()) {
-                System.out.println("Неправильний вибір!");
+                System.out.println("Неправильний вибір! Введіть номер від 1 до " + Droids.size());
                 continue;
             }
-            if (!Droids.get(idx).isAlive()) {
-                System.out.println(Droids.get(idx).getName() + " мертвий і не може брати участь!");
-                continue;
-            }
+
             if (chosen[idx]) {
                 System.out.println("Цей дроїд вже вибраний!");
                 continue;
             }
+
+            if (!Droids.get(idx).isAlive()) {
+                System.out.println(Droids.get(idx).getName() + " мертвий і не може брати участь!");
+                continue;
+            }
+
             return idx;
         }
     }
